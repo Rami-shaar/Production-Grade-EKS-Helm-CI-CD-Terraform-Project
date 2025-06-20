@@ -1,0 +1,38 @@
+# === Terraform ===
+.terraform/                # Local plugin/module cache
+.terraform.lock.hcl        # Provider lock file (can include if consistency is not needed)
+*.tfstate                  # State files
+*.tfstate.*                # Backup/intermediate state files
+*.backup                   # Generic backup files
+*.tfvars                   # Variable definition files (can contain secrets)
+
+# === Helm / Kubernetes ===
+*.tgz                      # Helm chart packages
+chart/                     # Helm charts folder
+release/                   # Helm release output
+
+# === Secrets ===
+.env                       # Environment variables
+*.pem                      # Private keys (e.g., SSH, TLS)
+*.key                      # TLS/SSL keys
+*.crt                      # Certificates
+
+# === Logs ===
+*.log
+logs/
+
+# === VS Code ===
+.vscode/
+
+# === OS-specific files ===
+.DS_Store
+Thumbs.db
+
+# === Build systems / Dev tools ===
+node_modules/              # Node.js dependencies
+dist/                      # Build artifacts
+__pycache__/               # Python bytecode cache
+*.pyc                      # Python compiled files
+
+# === GitHub Actions ===
+!.github/                  # Keep GitHub workflows and configs
