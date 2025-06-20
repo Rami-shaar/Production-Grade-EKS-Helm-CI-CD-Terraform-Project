@@ -1,6 +1,7 @@
-# 🌐 Production-Ready EKS + Microservices WebApp Infrastructure (Terraform)
+# 🌐 Production-Ready EKS + Helm + Microservices WebApp Infrastructure (Terraform)
 
-This project provisions a complete, production-grade EKS infrastructure on AWS using Terraform. It includes modular infrastructure stacks for VPC, IAM, and EKS, and deploys Kubernetes microservices using `kubectl` — designed for real-world scalability, modularity, and GitOps-style automation.
+This project provisions a complete, production-grade EKS infrastructure on AWS using **Terraform** and **Helm**. It includes modular infrastructure stacks for VPC, IAM, and EKS, and deploys Kubernetes microservices using `kubectl` — designed for real-world scalability, modularity, and GitOps-style automation.
+
 
 ---
 
@@ -21,7 +22,7 @@ This project provisions a complete, production-grade EKS infrastructure on AWS u
 ### 🖥️ Compute (EKS)
 - **EKS Cluster**: Managed control plane provisioned in private subnets
 - **Managed Node Group**: Auto-scaling EC2 worker nodes in private subnets
-- **Add-ons Ready**: Compatible with ALB Ingress Controller, cert-manager, external-dns, etc.
+- **Add-ons Ready**: Compatible with Ingress, DNS, TLS, autoscaling tools, etc.
 
 ---
 
@@ -29,7 +30,7 @@ This project provisions a complete, production-grade EKS infrastructure on AWS u
 - Modular Terraform setup with separate `vpc`, `iam`, and `eks` modules
 - Remote backend support using S3 + DynamoDB
 - OIDC integration with IAM roles for service accounts
-- CI/CD pipeline for Kubernetes app deployment via GitHub Actions
+- GitHub Actions workflow for automated app deployment
 - Clean `.gitignore` excluding `.terraform/`, `.tfstate`, and sensitive files
 
 ---
@@ -38,8 +39,9 @@ This project provisions a complete, production-grade EKS infrastructure on AWS u
 
 Kubernetes resources in this project are deployed using two approaches:
 
-- ✅ `helm` was used to install core infrastructure components like the **NGINX Ingress Controller**
-- ✅ `kubectl apply -f` is used to deploy our own app (`service-a`)
+- ✅ `helm` was used to install the **NGINX Ingress Controller** onto the EKS cluster  
+- 🛠️ Helm can also be used to install tools like **cert-manager**, **external-dns**, or **metrics-server** for TLS, DNS automation, and enhanced scalability
+- ✅ `kubectl apply -f` is used to deploy our own microservice (`service-a`)
 
 ### App manifests:
 ```
@@ -57,19 +59,19 @@ kubectl apply -f k8s-apps/service-a/
 
 ---
 
-## ⚙️ CI/CD with GitHub Actions
+## ⚙️ CI/CD Pipeline (via GitHub Actions)
 
-This project uses GitHub Actions for automatic app deployment to EKS whenever files in `k8s-apps/` are modified.
+This project includes a GitHub Actions workflow located at:
 
-### Workflow file:
 ```
 .github/workflows/deploy.yaml
 ```
 
 ### What it does:
-- Triggered on `push` to `main` branch when any file in `k8s-apps/**` changes
+- Triggered when changes are pushed to `main` in the `k8s-apps/**` directory
 - Uses AWS credentials stored in GitHub Secrets (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`)
-- Updates kubeconfig and applies manifests to EKS using `kubectl`
+- Updates kubeconfig to connect to the EKS cluster
+- Applies Kubernetes manifests using `kubectl`
 
 ### Workflow Summary:
 ```yaml
@@ -89,8 +91,6 @@ jobs:
       - Update kubeconfig
       - Apply Kubernetes manifests using kubectl
 ```
-
-This keeps your application deployments automated, consistent, and Git-tracked.
 
 ---
 
@@ -151,9 +151,9 @@ kubectl apply -f k8s-apps/service-a/
 ## 🔒 Security Notes
 
 - `.tfstate`, `.tfvars`, and `.terraform/` are excluded via `.gitignore`
-- AWS credentials are stored securely as GitHub Actions secrets
 - IAM roles follow least-privilege design
-- Nodes and services are isolated in private subnets
+- Nodes and workloads are deployed to **private subnets**
+- AWS credentials are stored securely as GitHub Actions secrets
 
 ---
 
