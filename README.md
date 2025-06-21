@@ -5,6 +5,8 @@ This project provisions a complete, production-grade EKS infrastructure on AWS u
 
 
 ![mermaid-diagram-2025-06-21-020747](https://github.com/user-attachments/assets/ef2ee741-a2e7-424c-8009-4f267ad6e122)
+“Diagram generated using Mermaid Live Editor. Represents high-level flow between Terraform-provisioned infrastructure, EKS, CI/CD, and microservices.”
+
 
 
 
