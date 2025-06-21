@@ -3,7 +3,8 @@
 This project provisions a complete, production-grade EKS infrastructure on AWS using **Terraform** and **Helm**. It includes modular infrastructure stacks for VPC, IAM, and EKS, and deploys Kubernetes microservices using `kubectl` — designed for real-world scalability, modularity, and GitOps-style automation.
 
 
-![mermaid-diagram-2025-06-21-020747ww](https://github.com/user-attachments/assets/8e3b2afb-18f7-4349-b3e6-e41b2b82b36a)
+ ![mermaid-diagram-2025-06-21-020747](https://github.com/user-attachments/assets/63e09a20-f394-4e79-9d01-3810c0474b40)
+
 
 ---
 
