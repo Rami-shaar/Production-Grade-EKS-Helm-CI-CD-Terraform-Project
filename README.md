@@ -2,6 +2,55 @@
 
 This project provisions a complete, production-grade EKS infrastructure on AWS using **Terraform** and **Helm**. It includes modular infrastructure stacks for VPC, IAM, and EKS, and deploys Kubernetes microservices using `kubectl` — designed for real-world scalability, modularity, and GitOps-style automation.
 
+graph TD
+  InternetUser["🌐 Internet User"]
+  ALB["ALB (Ingress Controller)"]
+  EKS["EKS Cluster (Private Subnets)"]
+
+  InternetUser --> ALB --> EKS
+
+  %% Kubernetes Workloads
+  subgraph "🧩 Kubernetes Workloads"
+    A["Microservice A<br/>Pod (kubectl)"]
+    B["cert-manager (Helm)<br/>+ TLS integration"]
+    C["external-dns (Helm)<br/>DNS automation"]
+  end
+
+  EKS --> A
+  EKS --> B
+  EKS --> C
+
+  %% Terraform Infra
+  subgraph "🛠️ Infrastructure via Terraform"
+    VPC["VPC<br/>(2 AZs)"]
+    Subnets["Public + Private Subnets"]
+    IGW["Internet Gateway"]
+    NAT["NAT Gateway"]
+    IAM["OIDC & IAM Roles"]
+    ALBIAM["ALB IAM Role"]
+    NodeGroup["Node Group (EC2)"]
+    EKSInfra["EKS Cluster (Terraform)"]
+  end
+
+  VPC --> Subnets
+  VPC --> IGW
+  VPC --> NAT
+  IAM --> ALBIAM
+  IAM --> NodeGroup
+  Subnets --> EKSInfra
+  EKSInfra --> EKS
+
+  %% CI/CD GitHub Actions
+  subgraph "⚙️ CI/CD Pipeline (GitHub Actions)"
+    CI["Push to main → deploy.yaml"]
+    AWS["Configure AWS Credentials"]
+    Kube["Update kubeconfig"]
+    Kubectl["kubectl apply -f"]
+  end
+
+  CI --> AWS --> Kube --> Kubectl --> A
+
+
 
 ---
 
