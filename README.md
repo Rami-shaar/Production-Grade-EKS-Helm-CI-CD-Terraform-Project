@@ -4,7 +4,8 @@ This project provisions a complete, production-grade EKS infrastructure on AWS u
 
 
 
-![mermaid-diagram-2025-06-21-020747](https://github.com/user-attachments/assets/7f49e36e-d9b3-4fd7-86a0-2ea45275f126)
+![mermaid-diagram-2025-06-21-020747ww](https://github.com/user-attachments/assets/9e48d4e2-5157-4a55-a7c0-c2bdbe6b16b6)
+
 
 
 
